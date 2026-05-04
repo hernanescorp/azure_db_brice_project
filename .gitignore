@@ -1,0 +1,10 @@
+.env
+*.env
+secrets/
+*.key
+*.pem
+*.pfx
+*.json
+__pycache__/
+.venv/
+.vscode/settings.json
