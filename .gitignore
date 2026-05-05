@@ -8,3 +8,5 @@ secrets/
 __pycache__/
 .venv/
 .vscode/settings.json
+data/raw/
+secrets/
