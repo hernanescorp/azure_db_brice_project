@@ -63,11 +63,21 @@ def build_sql_connection() -> pyodbc.Connection:
     if driver_name != SQL_DRIVER:
         print(f"Driver solicitado '{SQL_DRIVER}' no disponible, usando '{driver_name}' en su lugar.")
 
+    server = f"tcp:{SQL_SERVER},1433"
+    user = SQL_USER
+    connection_options = "Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
+
+    if driver_name == "SQL Server":
+        server_name = SQL_SERVER.split(".", 1)[0]
+        if "@" not in user:
+            user = f"{user}@{server_name}"
+        connection_options = "Encrypt=yes;Connection Timeout=30;"
+
     conn_str = (
         f"DRIVER={{{driver_name}}};"
-        f"SERVER={SQL_SERVER};DATABASE={SQL_DATABASE};"
-        f"UID={SQL_USER};PWD={SQL_PASSWORD};"
-        "Encrypt=yes;TrustServerCertificate=yes;Connection Timeout=30;"
+        f"SERVER={server};DATABASE={SQL_DATABASE};"
+        f"UID={user};PWD={SQL_PASSWORD};"
+        f"{connection_options}"
     )
     return pyodbc.connect(conn_str)
 
